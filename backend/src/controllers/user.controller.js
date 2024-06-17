@@ -139,8 +139,8 @@ export const logoutUser=asyncHandler(async(req,res)=>{
     const logOutUser= await User.findByIdAndUpdate(
         {_id:req.user._id.valueOf()},
         {
-            $set:{
-                refreshToken:undefined
+            $unset:{
+                refreshToken:1
             }
         },
         {
@@ -248,7 +248,7 @@ export const updatedAccountDetails=asyncHandler(async(req,res)=>{
         }).select("-password -refreshToken");
     return res
     .status(200)
-    .ApiResponse(200,updatedUser,"Account details updated successfully")
+    .json(new ApiResponse(200,updatedUser,"Account details updated successfully"));
 })
 
 // ===================Update Avtaar image ===================================

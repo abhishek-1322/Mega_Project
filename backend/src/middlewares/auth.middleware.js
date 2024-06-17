@@ -6,13 +6,14 @@ export const verifyJWT=async (req,res,next)=>{
     try {
         const token=req?.cookies?.accessToken || req?.headers?.authorization?.split(" ")[1];
         console.log("headers",req.headers.authorization.split(" ")[1],req.cookies)
-        console.log("inside jwt",token)
+        console.log("inside jwt",token, process.env.ACCESS_TOKEN_SECRET)
         if(!token){
             throw new ApiError(401,"Unauthorized");
         }
         const decodedToken=jwt?.verify(token,process.env.ACCESS_TOKEN_SECRET);
-        const user=await User.findById(decodedToken?._id).select("-password -refreshToken");
-    
+        console.log("decodedToken",decodedToken);
+        const user=await User.findById(decodedToken?.id).select("-password -refreshToken");
+        console.log("user",user);
         if(!user){
             throw new ApiError(401,"Invalid Access Token");
         }
