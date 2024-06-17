@@ -23,4 +23,4 @@ export const uploadCloudinary= async(filePath)=>{
         fs.unlink(filePath, (err)=>console.log("Error in file upload",err));
         return error;
     }
-}
+} 
